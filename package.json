@@ -11,11 +11,19 @@
     },
     "devDependencies": {
         "axios": "^0.21",
+        "laravel-datatables-vite": "^0.5.2",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0"
+    },
+    "dependencies": {
+        "bootstrap": "^4.6.0",
+        "datatables.net-bs4": "^1.13.4",
+        "datatables.net-buttons-bs4": "^2.3.6",
+        "jquery": "^3.6.4",
+        "popper.js": "^1.16.1"
     }
 }

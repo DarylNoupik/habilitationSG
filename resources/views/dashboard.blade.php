@@ -11,7 +11,7 @@
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Applications</p>
                 <h5 class="font-weight-bolder mb-0">
-                  450
+                  {{$applicationscount}}
                   <span class="text-success text-sm font-weight-bolder">+55%</span>
                 </h5>
               </div>
@@ -55,7 +55,7 @@
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Utilisateurs</p>
                 <h5 class="font-weight-bolder mb-0">
-                  750
+                    {{$userscount}}
                   <span class="text-danger text-sm font-weight-bolder">-2%</span>
                 </h5>
               </div>
@@ -77,7 +77,7 @@
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Profiles</p>
                 <h5 class="font-weight-bolder mb-0">
-                  140
+                     {{$fonctionscount}}
                   <span class="text-success text-sm font-weight-bolder">+5%</span>
                 </h5>
               </div>

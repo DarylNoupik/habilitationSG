@@ -68,7 +68,7 @@
                                             </g>
                                         </g>
                                     </svg>
-                                    <span class="ms-1">{{ __('Teams') }}</span>
+                                    <span class="ms-1">{{ __('Applications') }}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -175,7 +175,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Save Changes' }}</button>
+                        <button type="submit" class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Enregistrer les changements' }}</button>
                     </div>
                 </form>
 
