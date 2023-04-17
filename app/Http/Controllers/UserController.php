@@ -93,10 +93,10 @@ class UserController extends Controller
         $user->fonction_id = $request->input('fonction_id');
         $user->save();
          // Récupérer les applications de la fonction de l'utilisateur
-        $applications = $user->fonction->applications;
+       // $applications = $user->fonction->applications;
 
         // Attacher les applications à l'utilisateur
-        $user->applications()->attach($applications);
+      //  $user->applications()->attach($applications);
 
         return redirect()->route('users.index')->with('success', 'L\'utilisateur a été créé avec succès.');
     }

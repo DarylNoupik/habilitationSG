@@ -68,5 +68,14 @@ class User extends Authenticatable
             $totalApps += $this->fonction()->applications()->count();
         return $totalApps;
     }
+
+    public function addMissingApplications()
+    {
+        $fonction = $this->fonction;
+        if ($fonction) {
+            $missingApplications = $fonction->applications()->whereNotIn('id', $this->applications()->pluck('id')->toArray())->get();
+            $this->applications()->syncWithoutDetaching($missingApplications);
+        }
+    }
     
 }

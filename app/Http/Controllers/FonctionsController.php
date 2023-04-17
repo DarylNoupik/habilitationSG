@@ -51,7 +51,8 @@ class FonctionsController extends Controller
 
     public function storeApp (Request $request, $id){
         $fonction = Fonctions::find($id);
-        $fonction->applications()->attach($request->input('application_id'));
+        $application = Application::find($request->input('application_id'));
+        $fonction->addApplication($application);
         return redirect()->back()->with('success', 'L\'application a été ajoutée avec succès.');
     }
 
