@@ -1,0 +1,5 @@
+Pour la connexion à l'application 
+
+Le compte : test@test.gmail
+Mdp : 12345
+
