@@ -62,15 +62,15 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
     public function update (Request $request, $id){
+        
         $user = User::find($id);
-        $user->name = $request->input('nom ');
+        $user->name = $request->input('nom');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
         $user->matricule = $request->input('matricule');
         $user->role = $request->input('role');
-        $user->id_fonction = $request->input('id_fonction');
+        $user->fonction_id = $request->input('fonction_id');
         $user->save();
-        return redirect()->route('applications.index');
+        return redirect()->route('users.index');
     }
 
     public function edit ($id){

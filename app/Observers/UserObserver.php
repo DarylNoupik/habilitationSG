@@ -6,13 +6,22 @@ use App\Models\User;
 
 class UserObserver
 {
+    public function creating (User $user): void
+    {
+        $fonction = $user->fonction()->with('applications')->get();
+        $applications = $fonction->pluck('applications')->flatten()->unique('id');
+        $user->applications()->sync($applications->pluck('id'));
+        dd($user);
+    }
+    
     /**
      * Handle the User "created" event.
+     * 
      */
     
      public function created(User $user): void
      {
-         dd($user);
+     
          // Ajouter toutes les applications associées à la fonction de l'utilisateur
          $fonction = $user->fonction()->with('applications')->get();
          $applications = $fonction->pluck('applications')->flatten()->unique('id');

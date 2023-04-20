@@ -9,6 +9,17 @@ class Action extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'nom',
+        'description',
+        'id_application'
+    ];
+
     public function fonctions (){
         return $this->belongsToMany(Fonctions::class);
     }

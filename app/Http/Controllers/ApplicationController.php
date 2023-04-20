@@ -36,7 +36,7 @@ class ApplicationController extends Controller
 
     public function update (Request $request, $id){
         $application = Application::find($id);
-        $application->nom = $request->input('nom ');
+        $application->name = $request->input('nom');
         $application->description = $request->input('description');
         $application->save();
         return redirect()->route('applications.index');

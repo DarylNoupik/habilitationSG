@@ -86,9 +86,42 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="#" class="btn btn-danger">
+                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-{{$application->id}}">
                         <i class="fas fa-edit text-white"></i>
                     </a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal-{{$application->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-{{$application->id}}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel-{{$application->id}}">Nouvelle application</h5>
+                            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="POST" action="{{ route('applications.update',$application->id) }}" >
+                                @csrf
+                                    <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="nom" class="form-label">Nom :</label>
+                                        <input type="text" class="form-control" id="nom" name="nom" placeholder="{{$application->name}}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description :</label>
+                                        <textarea class="form-control" id="description" name="description" placeholder="{{$application->description}}" required></textarea>
+                                    </div>
+                                    </div>
+                                   
+                              
+                        <div class="modal-footer">
+                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn bg-gradient-primary">Créer</button>
+                        </div>
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                     <!--end modal-->
                 </div>
                 <div class="col">
                     <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{$application->id}}">
@@ -99,7 +132,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="deleteModalLabel-{{$application->id}}">Supprimer l'élément</h5>
-                                button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                             </div>
                             <div class="modal-body">
                                                     Êtes-vous sûr de vouloir supprimer cet élément  {{$application->id}} ?

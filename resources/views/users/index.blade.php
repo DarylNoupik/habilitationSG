@@ -107,15 +107,84 @@
                         <span class="text-secondary text-xs font-weight-bold">{{$user->applications_count}}</span>
                       </td>
                       <td class="align-middle">
+              <!-- bouton d'édition -->
                       <a href="#" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit user">
-                          <i class="fas fa-user-edit text-secondary"></i>
+                          <i class="fas fa-user-edit text-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal-{{$user->id}}"></i>
                       </a>
+              <!-- Modal -->
+                <div class="modal fade" id="exampleModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-{{$user->id}}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel-{{$user->id}}">Modification sur {{$user->name}} </h5>
+                                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                              <form action="{{ route('users.update', $user->id) }}" method="POST">
+                                   @csrf
+                                  
+                                    <div class="modal-body">
+                                             
+                                                <div class="mb-3">
+                                                    <label for="nom" class="form-label">Nom :</label>
+                                                    <input type="text" class="form-control" id="nom" name="nom" value="{{$user->name}}" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email :</label>
+                                                    <input type="email" class="form-control" id="email" name="email" value="{{$user->email}}" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="matricule" class="form-label">Matricule :</label>
+                                                    <input type="text" class="form-control" id="matricule" name="matricule" placeholder="agxxxxx" value="{{$user->matricule}}" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="role" class="form-label">Role :</label>
+                                                    <select class="form-select" id="role" name="role" value="{{$user->role}}" required>
+                                                        <option  value="{{$user->role}}">
+                                                          @if ($user->role == 'admin')
+                                                            Administrateur
+                                                          @elseif ($user->role == 'rssi')
+                                                            Consultant
+                                                          @else
+                                                            Utilisateur
+                                                          @endif
+                                                        </option>
+                                                            <option value="admin">Administrateur</option> 
+                                                            <option value="rssi">Consultant</option>
+                                                            <option value="user">Utilisateur</option>
+                                                        
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="fonction_id" class="form-label"> Fonction :</label>
+                                                    <select class="form-select" id="fonction_id" name="fonction_id" required>
+                                                        <option  value="{{$user->fonction_id}}">{{$user->fonction->nom}} </option>
+                                                        @foreach ($fonctions as $fonction)
+                                                            <option value="{{ $fonction->id }}">{{ $fonction->nom }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                        </div>
+                                                
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Annuler</button>
+                                            <button type="submit" class="btn bg-gradient-primary">Enregistrer</button>
+                                        </div>
+                              </form>
+                                 
+                        </div>  
+                    </div>
+                 </div>
+              <!--end modal-->
+              <!-- bouton de suppression -->
                       <span>
                           <i class="cursor-pointer fas fa-trash text-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal-{{$user->id}}"></i>
                       </span>
+              <!-- Modal de suppression -->
                       <div class="modal fade" id="deleteModal-{{$user->id}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{$user->id}}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
+                          <div class="modal-dialog">
+                              <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="deleteModalLabel-{{$user->id}}">Supprimer l'élément</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
@@ -131,10 +200,10 @@
                                                         <button type="submit" class="btn btn-danger">Supprimer</button>
                                                     </form>
                                                 </div>
-                                                </div>
-                                            </div>
-                                            </div>
-
+                                 </div>
+                              </div>
+                          </div>
+              <!-- end modal de suppression -->
                       </td>
                     </tr>
                     @endforeach
