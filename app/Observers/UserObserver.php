@@ -12,6 +12,7 @@ class UserObserver
     
      public function created(User $user): void
      {
+         dd($user);
          // Ajouter toutes les applications associées à la fonction de l'utilisateur
          $fonction = $user->fonction()->with('applications')->get();
          $applications = $fonction->pluck('applications')->flatten()->unique('id');

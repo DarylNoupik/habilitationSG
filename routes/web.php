@@ -88,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/', [ApplicationController::class, 'index'])->name('applications.index');
 		Route::get('/create', [ApplicationController::class, 'create'])->name('applications.create');
 		Route::post('/store', [ApplicationController::class, 'store'])->name('applications.store');
+		Route::get('/show/{id}', [ApplicationController::class, 'show'])->name('applications.show');
 		Route::get('/edit/{id}', [ApplicationController::class, 'edit'])->name('applications.edit');
 		Route::post('/update/{id}', [ApplicationController::class, 'update'])->name('applications.update');
 		Route::get('/delete/{id}', [ApplicationController::class, 'destroy'])->name('applications.destroy');

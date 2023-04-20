@@ -91,9 +91,32 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="#" class="btn btn-danger">
+                    <a href="#" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteModal-{{$application->id}}">
                         <i class="fas fa-trash-alt text-white"></i>
                     </a>
+
+                    <div class="modal fade" id="deleteModal-{{$application->id}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{$application->id}}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                    <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel-{{$application->id}}">Supprimer l'élément</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                                    Êtes-vous sûr de vouloir supprimer cet élément  {{$application->id}} ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <form method="GET" action="{{ route('applications.destroy', $application->id) }}">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                    </form>
+                                            </div>
+                                    </div>
+                            </div>
+                        </div>                
+                    
                 </div>
              </div>
         </div>

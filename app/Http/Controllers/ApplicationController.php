@@ -10,9 +10,6 @@ class ApplicationController extends Controller
     public function index (){
         $applications = Application::WithCount('users')
                         ->paginate(4);
-
-        
-
         return view ('applications.index',compact('applications'));
     }
     public function  create (){
@@ -26,6 +23,12 @@ class ApplicationController extends Controller
         return  redirect()->back()->with('success', 'La fonction a été ajoutée avec succès.');
 
     }
+
+    public function show ($id){
+        $application = Application::find($id);
+        return view('applications.show',compact('application'));
+    }
+
     public function edit ($id){
         $application = Application::find($id);
         return view('applications.edit',compact('application'));

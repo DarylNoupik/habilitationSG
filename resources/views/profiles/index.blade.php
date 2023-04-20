@@ -111,7 +111,7 @@
                                             <i class="fas fa-eye text-secondary"></i>
                                         </a>
                                         <a href="#" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit Profile">
-                                            <i class="fas fa-user-edit text-secondary"></i>
+                                            <i class="fas fa-edit text-secondary"></i>
                                         </a>
                                         <span>
                                             <i class="cursor-pointer fas fa-trash text-secondary"   data-bs-toggle="modal" data-bs-target="#deleteModal-{{$fonction->id}}"></i>
