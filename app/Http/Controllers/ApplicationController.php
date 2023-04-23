@@ -27,6 +27,7 @@ class ApplicationController extends Controller
 
     $applications = $applications->withCount('users')
                                  ->paginate(4);
+  
 
     return view('applications.index', compact('applications', 'query'));
 }

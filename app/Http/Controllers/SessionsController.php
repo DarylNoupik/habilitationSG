@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 
 class SessionsController extends Controller
@@ -15,18 +17,27 @@ class SessionsController extends Controller
 
     public function store()
     {
+        
         $attributes = request()->validate([
-            'email'=>'required|email',
-            'password'=>'required' 
+            'login' => 'required',
+            'password' => 'required'
         ]);
-
-        if(Auth::attempt($attributes))
-        {
+        
+        $loginType = filter_var($attributes['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'matricule';
+        
+        if ($loginType == 'email') {
+            $email = $attributes['login'];
+            $user = User::where('email', $email)->first();
+        } else {
+            $matricule = $attributes['login'];
+            $user = User::where('matricule', $matricule)->first();
+        }
+    
+        if ($user && Hash::check($attributes['password'], $user->password)) {
+            Auth::login($user);
             session()->regenerate();
             return redirect('dashboard')->with(['success'=>'You are logged in.']);
-        }
-        else{
-
+        } else {
             return back()->withErrors(['email'=>'Email or password invalid.']);
         }
     }
