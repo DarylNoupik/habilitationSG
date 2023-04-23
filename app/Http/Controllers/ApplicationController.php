@@ -7,11 +7,30 @@ use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
-    public function index (){
+    /**public function index (){
         $applications = Application::WithCount('users')
                         ->paginate(4);
         return view ('applications.index',compact('applications'));
+    }**/
+    public function index(Request $request)
+{
+    $query = $request->input('q');
+
+    $applications = Application::query();
+
+    // Si une recherche est effectuée, filtrer les résultats en conséquence
+    if ($query) {
+        $applications->where(function ($q) use ($query) {
+            $q->where('name', 'LIKE', "%$query%");
+        });
     }
+
+    $applications = $applications->withCount('users')
+                                 ->paginate(4);
+
+    return view('applications.index', compact('applications', 'query'));
+}
+
     public function  create (){
         return view('applications.form');
     }

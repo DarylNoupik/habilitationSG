@@ -9,13 +9,15 @@
             <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar"> 
-          
+       <form action="{{  route('search') }}" method="GET" class="ms-md-3 pe-md-3 d-flex align-items-center">
             <div class="ms-md-3 pe-md-3 d-flex align-items-center">
+            <input type="hidden" name="previous_path" value="{{ request()->path() }}">
             <div class="input-group">
                 <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" placeholder="Type here...">
+                <input name ="q" type="text" class="form-control" placeholder="Type here...">
             </div>
             </div>
+        </form>
             <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
                 <a href="{{ url('/logout')}}" class="nav-link text-body font-weight-bold px-0">

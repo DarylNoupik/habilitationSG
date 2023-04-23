@@ -13,14 +13,22 @@ class FonctionsController extends Controller
     public function index (){
         $applications = application::all();
        
-        //$fonctions = Fonctions::with('service.departement.direction','applications')->paginate(10);
-        $fonctions = Fonctions::withCount('applications')
+       
+        $query = request()->input('q');
+        $fonctions= Fonctions::query();
+        if ($query) {
+            $fonctions->where(function ($q) use ($query) {
+                $q->where('nom', 'LIKE', "%$query%");
+            });
+        }
+        $fonctions = $fonctions->withCount('applications')
                     ->with('service.departement.direction')
                     ->paginate(10);
         $services = Service::all(); 
         return view('profiles.index',compact([
              'fonctions',
-             'services'
+             'services',
+             'query'
         ]));
     }
 

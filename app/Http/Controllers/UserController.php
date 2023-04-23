@@ -16,9 +16,10 @@ class UserController extends Controller
 
 
     public function getUsers(Request $request){
-        $usersq = User::query();
-        $users = User::withCount('applications')
-                       ->with(['fonction.service'])->paginate(7);
+        $query = $request->input('q');
+        $users = User::query();
+        //$users = User::withCount('applications')
+          //             ->with(['fonction.service'])->paginate(7);
             
 
            
@@ -29,13 +30,14 @@ class UserController extends Controller
         $fonctions = Fonctions::all();
   
         // Recherche par nom d'utilisateur
-        if ($request->has('nom')) {
-            $usersq->where('nom', 'LIKE', '%' . $request->input('nom') . '%');
+        if ($query) {
+            $users->where('name', 'LIKE', '%' . $query . '%')
+            ->orWhere('matricule','LIKE','%'.$query.'%');
         }
 
         // Recherche par adresse e-mail
         if ($request->has('email')) {
-            $usersq->where('email', 'LIKE', '%' . $request->input('email') . '%');
+            $users->where('email', 'LIKE', '%' . $request->input('email') . '%');
         }
 
         // Tri par colonne
@@ -43,12 +45,13 @@ class UserController extends Controller
             $sort_by = $request->input('sort_by');
             $sort_dir = $request->input('sort_dir', 'asc');
 
-            $usersq->orderBy($sort_by, $sort_dir);
+            $users->orderBy($sort_by, $sort_dir);
         }
 
-        $usersq = $usersq->paginate(5)->appends($request->except('page'));
+        $users = $users->withCount('applications')
+                     ->with(['fonction.service'])->paginate(7)->appends($request->except('page'));
 
-        return view('users.index', compact(['users','fonctions']));
+        return view('users.index', compact(['users','fonctions','query']));
     }
 
     public function create()
