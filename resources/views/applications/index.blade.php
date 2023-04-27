@@ -74,7 +74,7 @@
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                         <li class="list-group-item"> <span class="d-inline-block bg-success rounded-circle p-1"></span> {{$application->users_count}} <i class="fas fa-user text-secondary"></i></li>
-                        <li class="list-group-item"> <span class="d-inline-block bg-success rounded-circle p-1"> </span> 0 <i class="fas fa-tools text-secondary"></i> </li>
+                        <li class="list-group-item"> <span class="d-inline-block bg-success rounded-circle p-1"> </span> {{$application->actions_count}} <i class="fas fa-tools text-secondary"></i> </li>
                         </ul>   
                     </div>
                 </div>

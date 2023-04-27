@@ -1,5 +1,7 @@
 @extends('layouts.user_type.auth')
+
 @section('content')
+
 <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
     <div class="container-fluid">
       <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url({{asset('../assets/img/curved-images/curved0.jpg')}}); background-position-y: 50%;">
@@ -9,21 +11,22 @@
         <div class="row gx-4">
           <div class="col-auto">
             <div class="avatar avatar-xl position-relative">
-              <img src="{{asset('../assets/img/small-logos/ampl.svg')}}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+              <img src="{{asset('../assets/img/bruce-mars.jpg')}}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
             </div>
           </div>
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-                {{$application->name}}
+                {{$user->name}}
               </h5>
               <p class="mb-0 font-weight-bold text-sm">
-               {{$application->description}}
+              {{$user->fonction->service->nom}} / {{$user->fonction->nom}}
               </p>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
             <div class="nav-wrapper position-relative end-0">
+        <!-- Barre de menu-->
               <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                 <li class="nav-item">
                   <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
@@ -41,9 +44,10 @@
                         </g>
                       </g>
                     </svg>
-                    <span class="ms-1">Actions</span>
+                    <span class="ms-1">Applications</span>
                   </a>
                 </li>
+    
                 <li class="nav-item">
                   <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
                     <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -62,7 +66,7 @@
                         </g>
                       </g>
                     </svg>
-                    <span class="ms-1">Ajouter une action</span>
+                    <span class="ms-1">Settings</span>
                   </a>
                 </li>
               </ul>
@@ -73,55 +77,61 @@
     </div>
     <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-12 col-xl-4">
-          <div class="card h-100">
+        
+        <div class="col-12 mt-4">
+          <div class="card mb-4">
             <div class="card-header pb-0 p-3">
-              <h6 class="mb-0">Actions de l'application</h6>
+              <h6 class="mb-1">Applications</h6>
+              <p class="text-sm">Listes d'applications</p>
             </div>
             <div class="card-body p-3">
-              <h6 class="text-uppercase text-body text-xs font-weight-bolder">Droits</h6>
-              <ul class="list-group">
-                 @foreach ($actions as $action)
-                <li class="list-group-item border-0 px-0">
-                  <div class="form-check form-switch ps-0">
-                    <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
-                    <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">{{$action->nom}}</label>
-                  </div>
-                </li>
-                @endforeach
-              </ul>
-              {{$actions->links()}}
-             
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-xl-4">
-          <div class="card h-100">
-            <div class="card-header pb-0 p-3">
               <div class="row">
-                <div class="col-md-8 d-flex align-items-center">
-                  <h6 class="mb-0">Profile Information</h6>
+            @foreach($appPerUser as $application )
+                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                  <div class="card card-blog card-plain">
+                    <div class="position-relative">
+                      <a class="d-block shadow-xl border-radius-xl">
+                        <img src="{{asset('../assets/img/home-decor-1.jpg')}}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                      </a>
+                    </div>
+                    <div class="card-body px-1 pb-0">
+                      <p class="text-gradient text-dark mb-2 text-sm"></p>
+                      <a href="javascript:;">
+                        <h5>
+                         {{$application->name}}
+                        </h5>
+                      </a>
+                      <p class="mb-4 text-sm">
+                        As Uber works through a huge amount of internal management turmoil.
+                      </p>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
+                        
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-md-4 text-end">
-                  <a href="javascript:;">
-                    <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
-                  </a>
+               @endforeach
+                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                  <div class="card h-100 card-plain border">
+                    <div class="card-body d-flex flex-column justify-content-center text-center">
+                      <a href="javascript:;">
+                        <i class="fa fa-plus text-secondary mb-3"></i>
+                        <h5 class=" text-secondary"> New project </h5>
+                      </a>
+                      
+                    </div>
+                  </div>
                 </div>
+            
               </div>
             </div>
-            <div class="card-body p-3">
-              <p class="text-sm">
-                    {{$application->description}}              
-              </p>
-              <hr class="horizontal gray-light my-4">
-              
-            </div>
+            {{$appPerUser->links()}}
           </div>
         </div>
-       
-       
       </div>
       @include('layouts.footers.auth.footer')
     </div>
   </div>
+
 @endsection

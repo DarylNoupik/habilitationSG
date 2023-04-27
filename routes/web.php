@@ -1,5 +1,5 @@
 <?php
-use App\Http\Controllers\ActionsController;
+use App\Http\Controllers\ActionController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\EquipementController;
@@ -79,13 +79,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/login', function () {
 		return view('dashboard');
 	})->name('sign-up');
-
-
-	Route::get('/users', [UserController::class, 'index']);
-	Route::get('/users2', [UserController::class, 'getUsers']);
-
+    // Route de recherche
 	Route::get('/search', [SearchController::class,'search'])->name('search');
-	
+	// Routage des actions
+	Route::prefix('actions')->group(function () {
+		Route::get('/', [ActionsController::class, 'index'])->name('actions.index');
+		Route::get('/create', [ActionsController::class, 'create'])->name('actions.create');
+		Route::post('/store', [ActionsController::class, 'store'])->name('actions.store');
+		Route::get('/show/{id}', [ActionsController::class, 'show'])->name('actions.show');
+		Route::get('/edit/{id}', [ActionsController::class, 'edit'])->name('actions.edit');
+		Route::post('/update/{id}', [ActionsController::class, 'update'])->name('actions.update');
+		Route::get('/delete/{id}', [ActionsController::class, 'destroy'])->name('actions.destroy');
+	});
 	// Routage des applications
 	Route::prefix('applications')->group(function () {
 		Route::get('/', [ApplicationController::class, 'index'])->name('applications.index');
@@ -99,12 +104,12 @@ Route::group(['middleware' => 'auth'], function () {
     // Routage des utilisateurs
 	Route::prefix('users')->group(function () {
 		Route::get('/', [UserController::class, 'getUsers'])->name('users.index');
+		Route::get('/show/{id}',[UserController::class,'show'])->name('users.show');
 		Route::get('/create', [UserController::class, 'create'])->name('users.create');
 		Route::post('/store', [UserController::class, 'store'])->name('users.store');
 		Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
 		Route::post('/update/{id}', [UserController::class, 'update'])->name('users.update');
 		Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-
     });
     // Routage des fonctions
 	Route::prefix('fonctions')->group(function () {

@@ -8,7 +8,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Applications</h5>
+                            <h5 class="mb-0">{{$fonction->nom}} - Applications </h5>
                         </div>  
                     <!-- Button trigger modal -->
                         <a href="#" class="btn bg-gradient-primary btn-sm mb-0 " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >+&nbsp; Nouvelle application</a>

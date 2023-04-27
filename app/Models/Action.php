@@ -17,7 +17,7 @@ class Action extends Model
     protected $fillable = [
         'nom',
         'description',
-        'id_application'
+        'application_id'
     ];
 
     public function fonctions (){

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\DataTables\UsersDataTable;
 use App\Models\User;
 use App\Models\Fonctions;
+use App\Models\application ;
 
 
 class UserController extends Controller
@@ -81,8 +82,12 @@ class UserController extends Controller
         return view('applications.edit',compact('user'));
     }
     public function show ($id){
-        $user = User::find($id);
-        return view('applications.show',compact('user'));
+    
+        $user = User::with(['fonction.service'])->find($id);
+        $appPerUser = $user->applications()->paginate(3);
+        $applications = application::all();
+
+        return view('users.show',compact(['user','appPerUser','applications']));
     }
     public function store (Request $request){
         
@@ -110,9 +115,5 @@ class UserController extends Controller
         $count = count($applications);
         return $count;
     }
-    
-
-
-
-    
+  
 }

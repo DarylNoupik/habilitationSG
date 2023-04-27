@@ -83,7 +83,7 @@ class FonctionsController extends Controller
     }
     public function show ($id){
         $fonction = Fonctions::find($id);
-        $appPerFonc = $fonction->applications()->paginate(5);
+        $appPerFonc = $fonction->applications()->paginate(4);
         $applications = application::all();
         return view('profiles.applications',compact(['fonction','applications','appPerFonc']));
     }

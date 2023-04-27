@@ -25,7 +25,7 @@ class ApplicationController extends Controller
         });
     }
 
-    $applications = $applications->withCount('users')
+    $applications = $applications->withCount('users','actions')
                                  ->paginate(4);
   
 
@@ -46,7 +46,8 @@ class ApplicationController extends Controller
 
     public function show ($id){
         $application = Application::find($id);
-        return view('applications.show',compact('application'));
+        $actions = $application->actions()->paginate(4);
+        return view('applications.show',compact(['application','actions']));
     }
 
     public function edit ($id){
