@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 18 avr. 2023 à 07:19
+-- Généré le : mer. 03 mai 2023 à 18:39
 -- Version du serveur : 5.7.36
 -- Version de PHP : 8.0.13
 
@@ -38,7 +38,15 @@ CREATE TABLE IF NOT EXISTS `actions` (
   PRIMARY KEY (`id`),
   KEY `actions_application_id_foreign` (`application_id`),
   KEY `actions_nom_index` (`nom`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Déchargement des données de la table `actions`
+--
+
+INSERT INTO `actions` (`id`, `nom`, `description`, `application_id`, `created_at`, `updated_at`) VALUES
+(1, 'Consultation', 'Action de consultation', 1, '2023-04-25 15:55:13', '2023-04-25 15:55:13'),
+(7, 'Commercant', 'Action de modifications', 2, '2023-04-25 17:09:13', '2023-04-25 17:09:13');
 
 -- --------------------------------------------------------
 
@@ -54,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Déchargement des données de la table `applications`
@@ -62,11 +70,12 @@ CREATE TABLE IF NOT EXISTS `applications` (
 
 INSERT INTO `applications` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'Amplitude', 'Application de corps banking', '2023-04-11 08:13:34', '2023-04-11 08:13:34'),
-(2, 'OCRE', 'Application', '2023-04-10 08:14:38', '2023-04-11 08:14:38'),
+(2, 'OCRE', 'Application SGC', '2023-04-10 08:14:38', '2023-04-20 14:00:58'),
 (3, 'Jira', 'ticketing', '2023-04-13 13:01:49', '2023-04-13 13:01:49'),
 (4, 'Outlook', 'Messagerie', '2023-04-13 13:03:42', '2023-04-13 13:03:42'),
 (5, 'Genero', 'Genero', '2023-04-13 13:05:36', '2023-04-13 13:05:36'),
-(6, 'Omega', 'Omega', '2023-04-13 13:06:53', '2023-04-13 13:06:53');
+(6, 'Omega', 'Omega', '2023-04-13 13:06:53', '2023-04-13 13:06:53'),
+(7, 'Sage', 'Applications de comptabilité', '2023-04-24 15:59:16', '2023-04-24 15:59:16');
 
 -- --------------------------------------------------------
 
@@ -133,6 +142,32 @@ CREATE TABLE IF NOT EXISTS `application_user` (
 --
 
 INSERT INTO `application_user` (`user_id`, `application_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(5, 1),
+(5, 2),
+(5, 3),
+(5, 4),
+(5, 5),
+(5, 6),
+(6, 1),
+(6, 2),
+(8, 1),
+(8, 2),
+(8, 3),
+(8, 4),
+(8, 5),
+(8, 6),
 (21, 1),
 (21, 2),
 (21, 3),
@@ -155,8 +190,18 @@ INSERT INTO `application_user` (`user_id`, `application_id`) VALUES
 (28, 5),
 (28, 6),
 (29, 5),
-(32, 5),
-(33, 5);
+(35, 1),
+(35, 2),
+(35, 3),
+(35, 4),
+(35, 5),
+(35, 6),
+(36, 1),
+(36, 2),
+(36, 3),
+(36, 4),
+(36, 5),
+(36, 6);
 
 -- --------------------------------------------------------
 
@@ -287,6 +332,14 @@ CREATE TABLE IF NOT EXISTS `fonction_actions` (
   KEY `fonction_actions_action_id_index` (`action_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
+--
+-- Déchargement des données de la table `fonction_actions`
+--
+
+INSERT INTO `fonction_actions` (`fonction_id`, `action_id`) VALUES
+(5, 1),
+(6, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -409,19 +462,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `users_matricule_unique` (`matricule`),
   UNIQUE KEY `users_password_unique` (`password`),
   KEY `users_fonction_id_foreign` (`fonction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `matricule`, `password`, `phone`, `location`, `about_me`, `role`, `fonction_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Daryl', 'test@test.gmail', 'ag881845', '$2y$10$S2oDJOh7FYLnEQDByY/zTOuyRohSUPwmDGIDP7QZwGdi5txWbcuGq', 55, '78', '78', 'user', 15, NULL, '2023-04-06 14:46:30', '2023-04-08 08:30:49'),
-(2, 'Vivien Lebsack', 'jenkins.bernice@example.com', 'zh0Pzl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 'user', 5, 'vLraVcOQOl', '2023-04-07 16:07:24', '2023-04-07 16:07:24'),
-(5, 'Hope Batz', 'laisha.stokes@example.org', 'GbHAQR', 'NDz2Rf5KER', NULL, NULL, NULL, 'user', 5, 'IpbrrQhjlk', '2023-04-07 16:09:49', '2023-04-07 16:09:49'),
-(6, 'Archibald Douglas', 'amy59@example.com', 'bbAVaO', 'AHFMH1e29h', NULL, NULL, NULL, 'user', 5, 'nCYnV6nLpl', '2023-04-07 16:09:56', '2023-04-07 16:09:56'),
+(1, 'Daryl', 'test@test.gmail', 'ag881845', '$2y$10$S2oDJOh7FYLnEQDByY/zTOuyRohSUPwmDGIDP7QZwGdi5txWbcuGq', 55, '78', '78', 'user', 5, NULL, '2023-04-06 14:46:30', '2023-04-20 15:10:16'),
+(2, 'Vivien Lebsack', 'jenkins.bernice@example.com', 'ag881880', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 'user', 5, 'vLraVcOQOl', '2023-04-07 16:07:24', '2023-04-20 16:07:38'),
+(5, 'Hope Batz', 'laisha.stokes@example.org', 'ag000005', 'NDz2Rf5KER', NULL, NULL, NULL, 'user', 5, 'IpbrrQhjlk', '2023-04-07 16:09:49', '2023-04-24 16:01:10'),
+(6, 'Archibald Douglas', 'amy59@example.com', 'ag000002', 'AHFMH1e29h', NULL, NULL, NULL, 'user', 15, 'nCYnV6nLpl', '2023-04-07 16:09:56', '2023-04-28 09:35:15'),
 (7, 'Prof. Sonny Schaefer', 'mschuppe@example.org', 'fgOxoB', 'okEtm5L9aC', NULL, NULL, NULL, 'user', 5, 'pFtbk014cY', '2023-04-07 16:09:56', '2023-04-07 16:09:56'),
-(8, 'Rodolfo Reinger', 'rubye39@example.net', 'S3kiny', 'Fd6I7EElZT', NULL, NULL, NULL, 'user', 5, 'Jqv28Qr42L', '2023-04-07 16:09:56', '2023-04-07 16:09:56'),
+(8, 'Rodolfo Reinger', 'rubye39@example.net', 'ag881804', 'Fd6I7EElZT', NULL, NULL, NULL, 'user', 5, 'Jqv28Qr42L', '2023-04-07 16:09:56', '2023-04-20 16:09:40'),
 (9, 'Mr. Matt Cruickshank', 'xschoen@example.com', 'jVkhhV', 'pCK8Wq7NDq', NULL, NULL, NULL, 'user', 5, 'aScWwYaIFw', '2023-04-07 16:09:56', '2023-04-07 16:09:56'),
 (10, 'Paige Nader', 'jason.hansen@example.com', 'PfqiVu', '0J6jhPxPC2', NULL, NULL, NULL, 'user', 5, 'ZmzgGDDzlk', '2023-04-07 16:09:56', '2023-04-07 16:09:56'),
 (11, 'Mr. Nelson Cartwright Sr.', 'wcrooks@example.org', 'sRVrsh', '5t2DJs5Ide', NULL, NULL, NULL, 'user', 5, 'BhpwjAUXjl', '2023-04-07 16:09:59', '2023-04-07 16:09:59'),
@@ -439,8 +492,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `matricule`, `password`, `phone`, `l
 (26, 'leila', 'leila@gmail.com', 'ag881689', '$2y$10$KhNy21i86qYk/Ixx0dyvYOkveSgmc.5TDne3R7OUBpQPt4.xYe.ja', NULL, NULL, NULL, 'user', 12, NULL, '2023-04-17 15:40:35', '2023-04-17 15:40:35'),
 (28, 'leila2', 'leila2@gmail.com', 'ag881692', '$2y$10$GORmKjlGM6x7OisBDFJpTObX1KC4f5M/BGT14eMe/pK4NQ71hifD2', NULL, NULL, NULL, 'user', 12, NULL, '2023-04-17 15:50:35', '2023-04-17 15:50:35'),
 (29, 'tata', 'tatue.fabrice@gmail.com', 'ag881830', '$2y$10$t5IL5eXFEzm5GGnIBQf2WeGabsCZTFabt31T0z17hRLTcSfmHDwX2', NULL, NULL, NULL, 'user', 14, NULL, '2023-04-17 15:52:20', '2023-04-17 15:52:20'),
-(32, 'tata23', 'tatue2.fabrice@gmail.com', 'ag881820', '$2y$10$825Yqgaw7Xz9TqPHFd9JZOczewLsLIG535C4ukRn.J4QDScEI8dju', NULL, NULL, NULL, 'rssi', 14, NULL, '2023-04-17 15:54:20', '2023-04-17 15:54:20'),
-(33, 'tata2323', 'tatue1.fabrice@gmail.com', 'ag881810', '$2y$10$kzmPQ4MVGgb3KOYqIdXs4OXKvrCNPlDB5FlmRK9HfgKpSsPOmPF5i', NULL, NULL, NULL, 'rssi', 14, NULL, '2023-04-17 15:55:23', '2023-04-17 15:55:23');
+(34, 'Rosine', 'rosine@gmail.com', 'ag881788', '$2y$10$mv4u2f7uic7liSRkc7c7BOZ1JNHl7KiCXnvpjiM5WwySKVXu6xI76', NULL, NULL, NULL, 'user', 8, NULL, '2023-04-19 14:57:50', '2023-04-19 14:57:50'),
+(35, 'jacques', 'jacques@gmail.com', 'ag000001', '$2y$10$1y4g3Tf6QyW5W97hJZ1BiODsxxBXG7qeLwBcn0C7Clb3KZaCpymWG', NULL, NULL, NULL, 'admin', 5, NULL, '2023-04-23 19:05:11', '2023-04-23 19:05:11'),
+(36, 'Jordanie', 'jordanie@gmail.com', 'ag000004', '$2y$10$Uex7oFwGK1KvF48OVP56V.0vZmAYdJr6LjJ.UJAflBBxHhyo5UDN2', NULL, NULL, NULL, 'user', 12, NULL, '2023-04-24 15:55:18', '2023-04-24 15:55:18');
 
 -- --------------------------------------------------------
 
