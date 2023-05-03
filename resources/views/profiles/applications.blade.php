@@ -62,7 +62,7 @@
  <div class="row row-cols-1 row-cols-md-4 g-2">  
     @foreach ($appPerFonc as $application)
     <div class="col"> 
-        <div class="card text-bg-primary mb-3 " style="max-width: 18rem;">
+        <div class="card text-bg-primary mb-3 " style="max-width:26rem;">
             <div class="card-header text-center border-bottom">
                  <h5>{{$application->name}}</h5>
             </div>
@@ -72,16 +72,20 @@
                 </div>
                 <div class="col-md-8 ">
                     <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                        <li class="list-group-item"> <span class="d-inline-block bg-success rounded-circle p-1"></span> 0 <i class="fas fa-user text-secondary"></i></li>
-                        <li class="list-group-item"> <span class="d-inline-block bg-success rounded-circle p-1"> </span> 0 <i class="fas fa-tools text-secondary"></i> </li>
-                        </ul>   
+                       
+                                <table>
+                                    <tr>
+                                        <td> <i class="fas fa-user"></i> </td>
+                                        <td> <p class="card-text">{{0}}</p> </td>
+                                    </tr>
+                                </table>
+                          
                     </div>
                 </div>
              </div>
              <div class="card-footer border-top row row-cols-1 row-cols-md-3 g-1 "> 
                 <div class="col">
-                    <a href="#" class="btn btn-danger">
+                    <a href="{{route('fonctions.showApp',['id'=>$fonction->id,'id_ap'=>$application->id])}}" class="btn btn-danger">
                         <i class="fas fa-eye text-white"></i>
                     </a>
                 </div>

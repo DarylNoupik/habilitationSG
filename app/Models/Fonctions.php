@@ -26,6 +26,27 @@ class Fonctions extends Model
         return $this->belongsTo(Service::class);
     }
 
+    public function actions()
+    {
+        return $this->belongsToMany(Action::class, 'fonction_actions', 'fonction_id', 'action_id');
+            
+    }
+
+    public function applicationActions()
+    {
+        return $this->hasManyThrough(Action::class, application::class)
+            ->join('application_fonction', 'application_fonction.application_id', '=', 'applications.id')
+            ->where('application_fonction.fonction_id', $this->id);
+    }
+
+    public function addAction(Action $actions)
+    {
+        $this->actions()->syncWithoutDetaching($actions);
+        //$actions = $this->actions()->pluck('id')->toArray();
+        //$this->users()->syncWithoutDetaching($actions);
+    }
+
+
     public function addApplication(application $application)
     {
         
@@ -36,6 +57,7 @@ class Fonctions extends Model
     
         
     }
+    
 
     public static function boot() 
     {
@@ -52,6 +74,7 @@ class Fonctions extends Model
             $users = $fonction->users;
             foreach($users as $user) {
                 $user->applications()->detach($fonction->applications);
+
             }
         });
     }

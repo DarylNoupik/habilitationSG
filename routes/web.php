@@ -116,8 +116,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/', [FonctionsController::class, 'index'])->name('fonctions.index');
 		Route::get('/create', [FonctionsController::class, 'create'])->name('fonctions.create');
 		Route::get('/show/{id}', [FonctionsController::class, 'show'])->name('fonctions.show');
+		Route::get('/show/{id}/showApp/{id_ap}', [FonctionsController::class, 'showApp'])->name('fonctions.showApp');
 		Route::post('/store', [FonctionsController::class, 'store'])->name('fonctions.store');
 		Route::post('/store/{id}', [FonctionsController::class, 'storeApp'])->name('fonctions.storeApp');
+		Route::post('/store/{id}/storeApp/{id_ap}', [FonctionsController::class, 'storeAction'])->name('fonctions.storeAction');
 		Route::get('/edit/{id}', [FonctionsController::class, 'edit'])->name('fonctions.edit');
 		Route::post('/update/{id}', [FonctionsController::class, 'update'])->name('fonctions.update');
 		Route::get('/delete/{id}', [FonctionsController::class, 'destroy'])->name('fonctions.destroy');

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\application;
 use App\Models\Fonctions;
 use App\Models\Service;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -63,6 +65,12 @@ class FonctionsController extends Controller
         $fonction->addApplication($application);
         return redirect()->back()->with('success', 'L\'application a été ajoutée avec succès.');
     }
+    public function storeAction (Request $request, $id){
+        $fonction = Fonctions::find($id);
+        $action = Action::find($request->input('action_id'));
+        $fonction->addAction($action);
+        return redirect()->back()->with('success', 'L\'action a été ajoutée avec succès.');
+    }
 
     public function edit ($id){
         $fonction = Fonctions::find($id);
@@ -82,10 +90,24 @@ class FonctionsController extends Controller
         return redirect()->back()->with('success', 'La fonction a été supprimé avec succès.');
     }
     public function show ($id){
-        $fonction = Fonctions::find($id);
+        $fonction = Fonctions::with('applications')->find($id);
         $appPerFonc = $fonction->applications()->paginate(4);
         $applications = application::all();
         return view('profiles.applications',compact(['fonction','applications','appPerFonc']));
+    }
+    public function showApp ($id,$id_ap){
+          // Récupérer la fonction avec l'ID donné
+    $fonction = Fonctions::findOrFail($id);
+
+    // Récupérer l'application avec l'ID donné
+    $application = Application::findOrFail($id_ap);
+
+    // Récupérer les actions de l'application
+    $actions = $application->actions()->paginate(4);
+    // Récupérer les actions de la fonction
+    $actionsPerFonc = $fonction->actions()->paginate(4);
+
+        return view('profiles.actions',compact(['fonction','application','actions','actionsPerFonc']));
     }
 
     public function search (Request $request){

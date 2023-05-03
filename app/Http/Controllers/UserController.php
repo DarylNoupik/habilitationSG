@@ -84,10 +84,11 @@ class UserController extends Controller
     public function show ($id){
     
         $user = User::with(['fonction.service'])->find($id);
+        $actions = $user->fonction->applications->flatMap->actions->unique();
         $appPerUser = $user->applications()->paginate(3);
         $applications = application::all();
 
-        return view('users.show',compact(['user','appPerUser','applications']));
+        return view('users.show',compact(['user','actions','appPerUser','applications']));
     }
     public function store (Request $request){
         
