@@ -9,31 +9,27 @@ use Illuminate\Support\Facades\Hash;
 use App\DataTables\UsersDataTable;
 use App\Models\User;
 use App\Models\Fonctions;
-use App\Models\application ;
+use App\Models\application;
 
 
 class UserController extends Controller
 {
 
 
-    public function getUsers(Request $request){
+    public function getUsers(Request $request)
+    {
         $query = $request->input('q');
         $users = User::query();
         //$users = User::withCount('applications')
-          //             ->with(['fonction.service'])->paginate(7);
-            
-
-           
-
-            
+        //             ->with(['fonction.service'])->paginate(7);
 
 
         $fonctions = Fonctions::all();
-  
+
         // Recherche par nom d'utilisateur
         if ($query) {
             $users->where('name', 'LIKE', '%' . $query . '%')
-            ->orWhere('matricule','LIKE','%'.$query.'%');
+                ->orWhere('matricule', 'LIKE', '%' . $query . '%');
         }
 
         // Recherche par adresse e-mail
@@ -50,9 +46,9 @@ class UserController extends Controller
         }
 
         $users = $users->withCount('applications')
-                     ->with(['fonction.service'])->paginate(7)->appends($request->except('page'));
+            ->with(['fonction.service'])->paginate(7)->appends($request->except('page'));
 
-        return view('users.index', compact(['users','fonctions','query']));
+        return view('users.index', compact(['users', 'fonctions', 'query']));
     }
 
     public function create()
@@ -60,13 +56,16 @@ class UserController extends Controller
         return view('applications.create');
     }
 
-    public function destroy ($id){
+    public function destroy($id)
+    {
         $user = User::find($id);
         $user->delete();
         return redirect()->route('users.index');
     }
-    public function update (Request $request, $id){
-        
+
+    public function update(Request $request, $id)
+    {
+
         $user = User::find($id);
         $user->name = $request->input('nom');
         $user->email = $request->input('email');
@@ -77,21 +76,31 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function edit ($id){
+    public function edit($id)
+    {
         $user = User::find($id);
-        return view('applications.edit',compact('user'));
+        return view('applications.edit', compact('user'));
     }
-    public function show ($id){
-    
-        $user = User::with(['fonction.service'])->find($id);
-        $actions = $user->fonction->applications->flatMap->actions->unique();
+
+    public function show($id)
+    {
+
+        $user = User::find($id);
+        $user = $user->load(['fonction' => function ($fonction) {
+            $fonction->with('service');
+        }, 'applications' => function ($applications) {
+            $applications->with('actions');
+        }]);
+        $actions = $user->fonction->applications;
         $appPerUser = $user->applications()->paginate(3);
         $applications = application::all();
 
-        return view('users.show',compact(['user','actions','appPerUser','applications']));
+        return view('users.show', compact(['user', 'actions', 'appPerUser', 'applications']));
     }
-    public function store (Request $request){
-        
+
+    public function store(Request $request)
+    {
+
         $user = new User();
         $password = 'mon_mot_de_passe_par_defaut';
         $user->name = $request->input('nom');
@@ -101,20 +110,21 @@ class UserController extends Controller
         $user->role = $request->input('role');
         $user->fonction_id = $request->input('fonction_id');
         $user->save();
-         // Récupérer les applications de la fonction de l'utilisateur
-       // $applications = $user->fonction->applications;
+        // Récupérer les applications de la fonction de l'utilisateur
+        // $applications = $user->fonction->applications;
 
         // Attacher les applications à l'utilisateur
-      //  $user->applications()->attach($applications);
+        //  $user->applications()->attach($applications);
 
         return redirect()->route('users.index')->with('success', 'L\'utilisateur a été créé avec succès.');
     }
 
-    public function Count_applicationPerUser($id) {
+    public function Count_applicationPerUser($id)
+    {
         $user = User::find($id);
         $applications = $user->applications;
         $count = count($applications);
         return $count;
     }
-  
+
 }
