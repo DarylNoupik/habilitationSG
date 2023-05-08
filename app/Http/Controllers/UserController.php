@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Action;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UsersDataTable;
@@ -86,22 +88,37 @@ class UserController extends Controller
     {
 
         $user = User::find($id);
-        $user = $user->load(['fonction' => function ($fonction) {
-            $fonction->with('service');
-        }, 'applications' => function ($applications) {
-            $applications->with('actions');
-        }]);
-        $actions = $user->fonction->applications;
-        $appPerUser = $user->applications()->paginate(3);
+
+
+        $user = $user->load([
+            'fonction' => function ($fonction) {
+                $fonction->with('service');
+            },
+            'applications' => function ($applications) {
+                $applications->select('id')->with(['actions' => function ($actions) use ($applications) {
+                    $actions->whereHas('fonctions', function ($fonctions) use ($applications) {
+                        $fonctions->whereIn('id', function ($query) use ($applications) {
+                            $query->select('fonction_id')
+                                ->from('fonction_actions')
+                                ->where('action_id', $applications->select('id')->first()->id);
+                        });
+                    });
+                }]);
+            }
+        ]);
+        dd($user);
+        
+
         $applications = application::all();
 
-        return view('users.show', compact(['user', 'actions', 'appPerUser', 'applications']));
+        return view('users.show', compact(['user', 'appPerUser', 'applications']));
     }
 
     public function store(Request $request)
     {
 
         $user = new User();
+
         $password = 'mon_mot_de_passe_par_defaut';
         $user->name = $request->input('nom');
         $user->email = $request->input('email');

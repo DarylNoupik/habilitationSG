@@ -38,6 +38,7 @@ class Fonctions extends Model
             ->join('application_fonction', 'application_fonction.application_id', '=', 'applications.id')
             ->where('application_fonction.fonction_id', $this->id);
     }
+    
 
     public function addAction(Action $actions)
     {

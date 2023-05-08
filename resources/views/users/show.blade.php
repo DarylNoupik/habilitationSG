@@ -101,10 +101,13 @@
                          {{$application->name}}
                         </h5>
                       </a>
-                      @foreach($actions as $action)
+                      @foreach($application->actions as $action)
+                        @if($action->fonctions->whereIn('id', $user->fonction->pluck('id'))->isNotEmpty())
+ 
                       <p class="mb-4 text-sm">
                         {{$action->nom}}
                       </p>
+                        @endif
                       @endforeach
                       <div class="d-flex align-items-center justify-content-between">
                         <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>

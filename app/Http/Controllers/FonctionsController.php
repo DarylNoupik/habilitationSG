@@ -105,8 +105,8 @@ class FonctionsController extends Controller
     // Récupérer les actions de l'application
     $actions = $application->actions()->paginate(4);
     // Récupérer les actions de la fonction
-    $actionsPerFonc = $fonction->actions()->paginate(4);
-
+    $actionsPerFonc = $fonction->actions()->where('application_id', $id_ap)->paginate(4);
+    
         return view('profiles.actions',compact(['fonction','application','actions','actionsPerFonc']));
     }
 
