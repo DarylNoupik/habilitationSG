@@ -86,7 +86,7 @@
             </div>
             <div class="card-body p-3">
               <div class="row">
-            @foreach($appPerUser as $application )
+            @foreach($user->applications as $application )
                 <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
                   <div class="card card-blog card-plain">
                     <div class="position-relative">
@@ -102,8 +102,7 @@
                         </h5>
                       </a>
                       @foreach($application->actions as $action)
-                        @if($action->fonctions->whereIn('id', $user->fonction->pluck('id'))->isNotEmpty())
- 
+                       @if($action->fonctions->pluck('id')->intersect($user->fonction->pluck('id'))->count() > 0)
                       <p class="mb-4 text-sm">
                         {{$action->nom}}
                       </p>
@@ -131,7 +130,7 @@
             
               </div>
             </div>
-            {{$appPerUser->links()}}
+            
           </div>
         </div>
       </div>

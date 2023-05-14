@@ -21,7 +21,7 @@ class Action extends Model
     ];
 
     public function fonctions (){
-        return $this->belongsToMany(Fonctions::class);
+        return $this->belongsToMany(Fonctions::class,'fonction_actions', 'fonction_id', 'action_id');
     }
     public function application() {
         return $this->belongsTo(application::class);

@@ -87,7 +87,7 @@ class UserController extends Controller
     public function show($id)
     {
 
-        $user = User::find($id);
+        /**$user = User::find($id);
 
 
         $user = $user->load([
@@ -106,12 +106,17 @@ class UserController extends Controller
                 }]);
             }
         ]);
-        dd($user);
+        
         
 
         $applications = application::all();
 
-        return view('users.show', compact(['user', 'appPerUser', 'applications']));
+        return view('users.show', compact(['user', 'appPerUser', 'applications']));**/
+
+        $user = User::with(['fonction.service', 'applications.actions.fonctions'])->find($id);
+        dd($user->applications);
+        $applications = Application::all();
+        return view('users.show', compact(['user', 'applications']));
     }
 
     public function store(Request $request)
