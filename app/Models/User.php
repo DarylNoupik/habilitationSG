@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -59,16 +60,21 @@ class User extends Authenticatable
     }
 
     public function applications (){
-        return $this->belongsToMany(application::class);
+        return $this->belongsToMany(application::class,'application_user');
     }
 
-    public function getTotalAppsAttribute()
+    public function actions()
     {
-        $totalApps = 0;
-            $totalApps += $this->fonction()->applications()->count();
-        return $totalApps;
+        return $this->belongsToMany(Action::class, 'application_user_action', 'user_id', 'action_id')
+                    ->withPivot('application_id')
+                    ->withTimestamps();
+    
     }
 
+    public function addFonctionAction($applicationId,$actionId){
+        $this->applications()->attach($applicationId, ['action_id' => $actionId]);
+    }
+ 
     public function addMissingApplications()
     {
         $fonction = $this->fonction;
@@ -77,5 +83,6 @@ class User extends Authenticatable
             $this->applications()->syncWithoutDetaching($missingApplications);
         }
     }
+
     
 }

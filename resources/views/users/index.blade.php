@@ -10,9 +10,23 @@
             <div class="card-header pb-0">
                 <div class="d-flex flex-row justify-content-between">
                             <div>
+                                @if (request()->path()==="users/suspended")
+                                <h5 class="mb-0">Utilisateurs suspendus</h5>
+                                @else
                                 <h5 class="mb-0">Utilisateurs</h5>
+                                @endif
+                                
                             </div>
-                            <a href="#" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button">+&nbsp; Nouvel Utilisateur</a>
+                            
+                            @if (request()->path()==="users/suspended")
+                                      <a href="{{route('users.index')}}" class="btn bg-gradient-primary btn-sm mb-0"  type="button">&nbsp; Utilisateurs Actifs</a>
+                            @else
+                                <div>
+                                      <a href="#" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button">+&nbsp; Nouvel Utilisateur</a>
+                                      <a href="{{route('users.remove')}}" class="btn bg-gradient-primary btn-sm mb-0"  type="button">-&nbsp;  Utilisateurs suspendus </a>
+                                </div> 
+                            @endif
+                         
                             <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -109,6 +123,13 @@
                         <span class="text-secondary text-xs font-weight-bold">{{$user->applications_count}}</span>
                       </td>
                       <td class="align-middle">
+                        @if (request()->path()==="users/suspended")
+                       
+                        <a href="{{ route('users.restore', $user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Restore user">
+                          <i class="fas fa-trash-restore  text-secondary" ></i>
+                        </a>
+                      
+                        @else
               <!-- bouton d'édition -->
                       <a href="#" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit user">
                           <i class="fas fa-user-edit text-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal-{{$user->id}}"></i>
@@ -206,6 +227,7 @@
                               </div>
                           </div>
               <!-- end modal de suppression -->
+                        @endif
                       </td>
                     </tr>
                     @endforeach

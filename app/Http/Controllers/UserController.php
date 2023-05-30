@@ -20,6 +20,7 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
+        //dd(request()->path());
         $query = $request->input('q');
         $users = User::query();
         //$users = User::withCount('applications')
@@ -46,9 +47,13 @@ class UserController extends Controller
 
             $users->orderBy($sort_by, $sort_dir);
         }
-
+        if(request()->path()==="users/suspended"){
+            $users= $users->onlyTrashed()->withCount('applications')
+            ->with(['fonction.service'])->paginate(7)->appends($request->except('page'));
+        }else{
         $users = $users->withCount('applications')
             ->with(['fonction.service'])->paginate(7)->appends($request->except('page'));
+        }
 
         return view('users.index', compact(['users', 'fonctions', 'query']));
     }
@@ -113,10 +118,55 @@ class UserController extends Controller
 
         return view('users.show', compact(['user', 'appPerUser', 'applications']));**/
 
-        $user = User::with(['fonction.service', 'applications.actions.fonctions'])->find($id);
-        dd($user->applications);
+       /* $user = User::with(['fonction.service', 'applications.actions.fonctions'])->find($id);
+        
         $applications = Application::all();
-        return view('users.show', compact(['user', 'applications']));
+        return view('users.show', compact(['user', 'applications']));*/
+
+       /* $user = User::find($id);
+        $user->load('fonction.service');
+        $user->applications->load('actions.fonctions');
+
+        // Récupérer les applications de l'utilisateur avec les actions associées
+        $aplications = $user->fonction->applications->map(function ($application) {
+            $actions = $application->actions;
+            $application->setAttribute('actions', $actions);
+            return $application;
+        });
+
+       /*** foreach ($user->applications as $application ){
+            foreach ($application->actions as $action){
+
+                dd($action->fonction_id);
+            }
+        }***/
+        
+        /*$user = User::query()
+        ->join('application_user', 'users.id', '=', 'application_user.user_id')
+        ->join('actions', 'application_user.application_id', '=', 'actions.application_id')
+        ->join('applications','applications.id','=','application_user.application_id')
+        ->join('fonction_actions', 'actions.id', '=', 'fonction_actions.action_id')
+        ->whereColumn('users.fonction_id', '=', 'fonction_actions.fonction_id')
+        ->where('users.id', $id)
+        ->first();*/
+    /**foreach ($user2->applications as $application){
+        dd($application->actions);
+    }*/
+    //  dd( $user2->applications);
+      //  $applications = Application::all();
+
+      $user = User::findOrFail($id);
+      $applications = $user->applications()->paginate(4);
+      $actions = [];
+  
+      foreach ($applications as $application) {
+          $actions[$application->id] = $user->actions()->wherePivot('application_id', $application->id)->get();
+         
+      }
+      
+      
+      return view('users.show', compact('user', 'applications', 'actions'));
+
     }
 
     public function store(Request $request)
@@ -141,12 +191,11 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'L\'utilisateur a été créé avec succès.');
     }
 
-    public function Count_applicationPerUser($id)
-    {
-        $user = User::find($id);
-        $applications = $user->applications;
-        $count = count($applications);
-        return $count;
+    public function restore($id){
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        return redirect()->route('users.index')->with('success', 'L\'utilisateur a été restauré avec succès.');
+
     }
 
 }

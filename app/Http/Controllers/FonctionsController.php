@@ -68,7 +68,9 @@ class FonctionsController extends Controller
     public function storeAction (Request $request, $id){
         $fonction = Fonctions::find($id);
         $action = Action::find($request->input('action_id'));
+       // $application = application::find($request->input('application_id'));
         $fonction->addAction($action);
+        //$fonction->users->addFonctionAction($action);
         return redirect()->back()->with('success', 'L\'action a été ajoutée avec succès.');
     }
 

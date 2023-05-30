@@ -20,7 +20,7 @@ class Fonctions extends Model
     }
 
     public function users (){
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class,'fonction_id');
     }
     public function service (){
         return $this->belongsTo(Service::class);
@@ -30,6 +30,12 @@ class Fonctions extends Model
     {
         return $this->belongsToMany(Action::class, 'fonction_actions', 'fonction_id', 'action_id');
             
+    }
+
+    public function applicationUserAction()
+    {
+        return $this->belongsToMany(Application::class, 'application_user_action', 'user_id', 'application_id')
+                    ->withTimestamps();
     }
 
     public function applicationActions()
@@ -42,9 +48,14 @@ class Fonctions extends Model
 
     public function addAction(Action $actions)
     {
-        $this->actions()->syncWithoutDetaching($actions);
+         $this->actions()->syncWithoutDetaching($actions);
         //$actions = $this->actions()->pluck('id')->toArray();
         //$this->users()->syncWithoutDetaching($actions);
+           $users = $this->users;
+            foreach ($users as $user) {
+                $pivotData = ['application_id' => $actions->application_id];
+                $user->actions()->attach( $actions->id , $pivotData);
+            }
     }
 
 

@@ -12,7 +12,7 @@
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Applications</p>
                 <h5 class="font-weight-bolder mb-0">
                   {{$applicationscount}}
-                  <span class="text-success text-sm font-weight-bolder">+55%</span>
+                 <!-- <span class="text-success text-sm font-weight-bolder">+55%</span>-->
                 </h5>
               </div>
             </div>
@@ -34,7 +34,7 @@
                 <p class="text-sm mb-0 text-capitalize font-weight-bold"> Equipements</p>
                 <h5 class="font-weight-bolder mb-0">
                   0
-                  <span class="text-success text-sm font-weight-bolder">+3%</span>
+                 <!--<span class="text-success text-sm font-weight-bolder">+3%</span>-->
                 </h5>
               </div>
             </div>
@@ -56,7 +56,7 @@
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Utilisateurs</p>
                 <h5 class="font-weight-bolder mb-0">
                     {{$userscount}}
-                  <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                  <!--<span class="text-danger text-sm font-weight-bolder">-2%</span>-->
                 </h5>
               </div>
             </div>
@@ -78,7 +78,7 @@
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Profiles</p>
                 <h5 class="font-weight-bolder mb-0">
                      {{$fonctionscount}}
-                  <span class="text-success text-sm font-weight-bolder">+5%</span>
+                 <!-- <span class="text-success text-sm font-weight-bolder">+5%</span>-->
                 </h5>
               </div>
             </div>
@@ -101,7 +101,7 @@
               <div class="d-flex flex-column h-100">
                 <p class="mb-1 pt-2 text-bold">Revue d'habilitaions</p>
                 <h5 class="font-weight-bolder">GH-P Dashboard</h5>
-                <p class="mb-5">Vous pourrez visualiser toutes informations pourle pilotages</p>
+                <p class="mb-5">Bienvenue <span class="font-weight-bolder">{{Auth::user()->name}}</span> , nous sommes ravis de vous revoir </p>
               </div>
             </div>
             <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
@@ -128,6 +128,7 @@
       </div>
     </div>
   </div>
+  <!--
   <div class="row mt-4">
     <div class="col-lg-5 mb-lg-0 mb-4">
       <div class="card z-index-2">
@@ -261,7 +262,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
  
 
 @endsection

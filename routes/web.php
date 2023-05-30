@@ -104,12 +104,14 @@ Route::group(['middleware' => 'auth'], function () {
     // Routage des utilisateurs
 	Route::prefix('users')->group(function () {
 		Route::get('/', [UserController::class, 'getUsers'])->name('users.index');
+		Route::get('/suspended',[UserController::class,'getUsers'])->name('users.remove');
 		Route::get('/show/{id}',[UserController::class,'show'])->name('users.show');
 		Route::get('/create', [UserController::class, 'create'])->name('users.create');
 		Route::post('/store', [UserController::class, 'store'])->name('users.store');
 		Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
 		Route::post('/update/{id}', [UserController::class, 'update'])->name('users.update');
 		Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+		Route::get('/restore/{id}',[UserController::class,'restore'])->name('users.restore');
     });
     // Routage des fonctions
 	Route::prefix('fonctions')->group(function () {

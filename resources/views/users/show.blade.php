@@ -85,13 +85,13 @@
               <p class="text-sm">Listes d'applications</p>
             </div>
             <div class="card-body p-3">
-              <div class="row">
-            @foreach($user->applications as $application )
+              <div class="row row-cols-1 row-cols-md-2 g-2">
+            @foreach($applications as $application )
                 <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
                   <div class="card card-blog card-plain">
                     <div class="position-relative">
-                      <a class="d-block shadow-xl border-radius-xl">
-                        <img src="{{asset('../assets/img/home-decor-1.jpg')}}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                      <a class="d-block shadow-xl border-radius-xl d-flex align-items-center justify-content-center">
+                        <img src="{{asset('assets/img/socgen.png')}}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
                       </a>
                     </div>
                     <div class="card-body px-1 pb-0">
@@ -101,39 +101,35 @@
                          {{$application->name}}
                         </h5>
                       </a>
-                      @foreach($application->actions as $action)
-                       @if($action->fonctions->pluck('id')->intersect($user->fonction->pluck('id'))->count() > 0)
                       <p class="mb-4 text-sm">
-                        {{$action->nom}}
-                      </p>
+                        <h6> Droits Utilisateurs </h6>
+                        @if ($actions[$application->id]->isEmpty())
+                            <strong>Aucun droit disponible</strong>
+                        @else
+                        <ul>
+                          @foreach ($actions[$application->id] as $action)
+                              <li>{{ $action->nom }} : {{ $action->description }}</li>
+                          @endforeach
+                        </ul>
                         @endif
-                      @endforeach
-                      <div class="d-flex align-items-center justify-content-between">
-                        <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
                         
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
+
+                
                @endforeach
-                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
-                  <div class="card h-100 card-plain border">
-                    <div class="card-body d-flex flex-column justify-content-center text-center">
-                      <a href="javascript:;">
-                        <i class="fa fa-plus text-secondary mb-3"></i>
-                        <h5 class=" text-secondary"> New project </h5>
-                      </a>
-                      
-                    </div>
-                  </div>
-                </div>
+               
+             
             
               </div>
             </div>
-            
+            {{$applications->links()}}
           </div>
         </div>
       </div>
+      
       @include('layouts.footers.auth.footer')
     </div>
   </div>

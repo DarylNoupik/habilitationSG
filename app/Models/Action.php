@@ -26,4 +26,9 @@ class Action extends Model
     public function application() {
         return $this->belongsTo(application::class);
     }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'application_user_action', 'action_id', 'user_id')
+                    ->withPivot('application_id');
+    }
 }

@@ -16,12 +16,14 @@ class application extends Model
          
     ];
     public function users (){
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class,'application_user');
     }
     public function fonctions (){
         return $this->belongsToMany(Fonctions::class,'application_fonction','fonction_id','application_id');   
     }
-    public function actions() {
-        return $this->hasMany(Action::class);
+    public function actions()
+    {
+        return $this->hasMany(Action::class,'application_id');
     }
+    
 }
