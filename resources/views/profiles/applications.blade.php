@@ -75,8 +75,8 @@
                        
                                 <table>
                                     <tr>
-                                        <td> <i class="fas fa-user"></i> </td>
-                                        <td> <p class="card-text">{{0}}</p> </td>
+                                        <td> <i class="fas fa-tools"></i> </td>
+                                        <td> <p class="card-text">{{$fonction->actions()->where('application_id', $application->id)->count()}}</p> </td>
                                     </tr>
                                 </table>
                           

@@ -84,5 +84,9 @@ class User extends Authenticatable
         }
     }
 
+    public function addApplication($application){
+        $this->applications()->syncWithoutDetaching($application->id);
+    }
+
     
 }

@@ -158,14 +158,23 @@ class UserController extends Controller
       $user = User::findOrFail($id);
       $applications = $user->applications()->paginate(4);
       $actions = [];
+      $actionsPerApp =[];
   
       foreach ($applications as $application) {
           $actions[$application->id] = $user->actions()->wherePivot('application_id', $application->id)->get();
+          $actionsPerApp[$application->id] = Action::where('application_id',$application->id)->get();
          
       }
+    
+
+      $allApp = application::all();
       
       
-      return view('users.show', compact('user', 'applications', 'actions'));
+      $appDispo = $allApp->diff($user->applications);
+      
+      
+      
+      return view('users.show', compact('user', 'applications', 'actions','appDispo','actionsPerApp'));
 
     }
 
@@ -189,6 +198,19 @@ class UserController extends Controller
         //  $user->applications()->attach($applications);
 
         return redirect()->route('users.index')->with('success', 'L\'utilisateur a été créé avec succès.');
+    }
+    public function storeApp(Request $request, $id){
+        $user = User::find($id) ;
+        $application = application::find($request->input('application_id'));
+        $user->addApplication($application);
+        return redirect()->back()->with('success', 'L\'application a été ajoutée avec succès.');
+
+    }
+    public function storeAction(Request $request,$id){
+        $user = User::find($id);
+        $action =  Action::find($request->input('action_id'));
+        $user->addFonctionAction($action->application_id,$action->id);
+        return redirect()->back()->with('success', 'L\'application a été ajoutée avec succès.');
     }
 
     public function restore($id){

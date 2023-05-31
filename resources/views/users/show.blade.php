@@ -49,7 +49,7 @@
                 </li>
     
                 <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                  <a class="nav-link mb-0 px-0 py-1 "  data-bs-toggle="modal" data-bs-target="#exampleModal" href="javascript:;" role="tab" aria-selected="false">
                     <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <title>settings</title>
                       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -66,7 +66,7 @@
                         </g>
                       </g>
                     </svg>
-                    <span class="ms-1">Settings</span>
+                    <span class="ms-1">Nouvelle application</span>
                   </a>
                 </li>
               </ul>
@@ -75,6 +75,45 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nouvelle application</h5>
+              <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <form method="POST" action="{{ route('users.storeApp',$user->id) }}" >
+                  @csrf
+                 
+                      <div class="modal-body">
+                    
+                          <div class="mb-3">
+                              <label for="application_id" class="form-label"> Application:</label>
+                              <select class="form-select" id="application_id" name="application_id" required>
+                                  <option selected disabled>Choisir une application </option>
+                                  @foreach ($appDispo as $application)
+                                      <option value="{{ $application->id }}">{{ $application->name }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+
+                      </div>
+                  
+                
+          <div class="modal-footer">
+              <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn bg-gradient-primary">Ajouter</button>
+          </div>
+          </form>
+          </div>
+      </div>
+      </div>
+       <!--end modal-->
+          
     <div class="container-fluid py-4">
       <div class="row">
         
@@ -106,12 +145,66 @@
                         @if ($actions[$application->id]->isEmpty())
                             <strong>Aucun droit disponible</strong>
                         @else
-                        <ul>
-                          @foreach ($actions[$application->id] as $action)
-                              <li>{{ $action->nom }} : {{ $action->description }}</li>
-                          @endforeach
-                        </ul>
+                     
+                        <table class="table  table-bordered">
+                          <tbody>
+                            @foreach ($actions[$application->id] as $action)
+                            <tr>
+                             
+                              <td>{{ $action->nom }}</td>
+                              <td>
+                                <span>
+                                  <i class="cursor-pointer fas fa-trash text-secondary"   data-bs-toggle="modal" data-bs-target="#deleteModal-"></i>
+                              </span>
+                              </td>
+                            </tr>
+                            @endforeach
+                              
+                            <tr  class="text-center d-flex justify-content-center">
+                              <td colspan="3"><a class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">Ajouter un droit</a></td>
+                            </tr>
+                                <!-- Modal -->
+                                          <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel2">Nouvelle application</h5>
+                                                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="POST" action="{{ route('users.storeAction',$user->id) }}" >
+                                                        @csrf
+                                                      
+                                                            <div class="modal-body">
+                                                          
+                                                                <div class="mb-3">
+                                                                    <label for="action_id" class="form-label"> Action disponible:</label>
+                                                                    <select class="form-select" id="action_id" name="action_id" required>
+                                                                        <option selected disabled>Choisir une action </option>
+                                                                        @foreach ($actionsPerApp[$application->id]->diff($actions[$application->id]) as $action)
+                                                                            <option value="{{ $action->id }}">{{ $action->nom }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                        
+                                                      
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <button type="submit" class="btn bg-gradient-primary">Ajouter</button>
+                                                </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                            </div>
+                                          
+                                            <!--end modal-->
+                          </tbody>
+                        </table>
                         @endif
+                        
                         
                       </p>
                     </div>
