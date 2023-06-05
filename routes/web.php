@@ -113,6 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
 		Route::post('/update/{id}', [UserController::class, 'update'])->name('users.update');
 		Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+		Route::delete('{userId}/actions/{actionId}',[UserController::class,'deleteAction'])->name('users.deleteAction');
 		Route::get('/restore/{id}',[UserController::class,'restore'])->name('users.restore');
     });
     // Routage des fonctions

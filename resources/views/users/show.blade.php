@@ -137,13 +137,57 @@
                       <p class="text-gradient text-dark mb-2 text-sm"></p>
                       <a href="javascript:;">
                         <h5>
-                         {{$application->name}}
+                          @if ($unlinkedApplications->contains($application))
+                          <span class="d-block">{{$application->name}}</span> :  <span> <h6 class="btn bg-gradient-primary">Application speciale </h6><span>
+                          @else
+                          <span class="d-block">{{$application->name}}</span> : <span> <h6 class="btn bg-gradient-success">Application de fonction</h6><span>
+                          @endif
+                        
                         </h5>
                       </a>
                       <p class="mb-4 text-sm">
                         <h6> Droits Utilisateurs </h6>
                         @if ($actions[$application->id]->isEmpty())
-                            <strong>Aucun droit disponible</strong>
+                            <strong><a class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal3">Ajouter un droit</a></td></strong>
+                             <!-- Modal -->
+                             <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel3">Nouvelle application</h5>
+                                      <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                      </button>
+                                  </div>
+                                  <form method="POST" action="{{ route('users.storeAction',$user->id) }}" >
+                                          @csrf
+                                        
+                                              <div class="modal-body">
+                                            
+                                                  <div class="mb-3">
+                                                      <label for="action_id" class="form-label"> Action disponible:</label>
+                                                      <select class="form-select" id="action_id" name="action_id" required>
+                                                          <option selected disabled>Choisir une action </option>
+                                                          @foreach ($actionsPerApp[$application->id]->diff($actions[$application->id]) as $action)
+                                                              <option value="{{ $action->id }}">{{ $action->nom }}</option>
+                                                          @endforeach
+                                                      </select>
+                                                  </div>
+
+                                              </div>
+                                          
+                                        
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Annuler</button>
+                                      <button type="submit" class="btn bg-gradient-primary">Ajouter</button>
+                                  </div>
+                                  </form>
+                                  </div>
+                              </div>
+                              </div>
+                            
+                              <!--end modal-->
+
                         @else
                      
                         <table class="table  table-bordered">
@@ -154,8 +198,29 @@
                               <td>{{ $action->nom }}</td>
                               <td>
                                 <span>
-                                  <i class="cursor-pointer fas fa-trash text-secondary"   data-bs-toggle="modal" data-bs-target="#deleteModal-"></i>
+                                  <i class="cursor-pointer fas fa-trash text-secondary"   data-bs-toggle="modal" data-bs-target="#deleteModal-{{$action->id}}"></i>
                               </span>
+                              <div class="modal fade" id="deleteModal-{{$action->id}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{$action->id}}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel-{{$action->id}}">Supprimer l'élément</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Êtes-vous sûr de vouloir supprimer cet élément  {{$action->id}} ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                <form method="POST" action="{{ route('users.deleteAction',['userId' => $user->id, 'actionId' => $action->id]) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                </form>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
                               </td>
                             </tr>
                             @endforeach

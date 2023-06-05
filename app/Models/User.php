@@ -87,6 +87,10 @@ class User extends Authenticatable
     public function addApplication($application){
         $this->applications()->syncWithoutDetaching($application->id);
     }
+    public function addAction($action){
+        $pivotData = ['application_id' => $action->application_id];
+        $this->actions()->attach( $action->id , $pivotData);
+    }
 
     
 }

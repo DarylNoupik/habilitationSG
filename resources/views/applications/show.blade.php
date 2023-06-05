@@ -184,10 +184,28 @@
               </div>
             </div>
             <div class="card-body p-3">
-              <p class="text-sm">
-                    {{$application->description}}              
-              </p>
-              <hr class="horizontal gray-light my-4">
+              
+              <table>
+                <thead>
+                    <tr>
+                        <th>({{ $users->total() }}) Utilisateurs associés </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ul>
+                                @foreach ($users as $key => $user)
+                                    <li>{{ $user->name }} : <span><h6>{{$user->matricule}}</h6></span></li>
+                                @endforeach
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            {{ $users->links() }}
+
               
             </div>
           </div>

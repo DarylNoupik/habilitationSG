@@ -171,10 +171,14 @@ class UserController extends Controller
       
       
       $appDispo = $allApp->diff($user->applications);
+
+      $functionApplications = $user->fonction->applications;
+      $linkedApplications = $user->applications;
+      $unlinkedApplications = $linkedApplications->diff($functionApplications);
+      //dd($unlinkedApplications);
       
       
-      
-      return view('users.show', compact('user', 'applications', 'actions','appDispo','actionsPerApp'));
+      return view('users.show', compact('user', 'applications', 'actions','appDispo','actionsPerApp','unlinkedApplications'));
 
     }
 
@@ -209,8 +213,22 @@ class UserController extends Controller
     public function storeAction(Request $request,$id){
         $user = User::find($id);
         $action =  Action::find($request->input('action_id'));
-        $user->addFonctionAction($action->application_id,$action->id);
-        return redirect()->back()->with('success', 'L\'application a été ajoutée avec succès.');
+        $user->addAction($action);
+        return redirect()->back()->with('success', 'L\'action a été ajoutée avec succès.');
+    }
+
+    public function deleteAction($Userid,$actionId){
+        $user = User::findOrFail($Userid);
+        $action = Action::findOrFaIL($actionId);
+        if($user->actions->contains($action)){
+            $user->actions()->detach($action);
+            return redirect()->back()->with('success', 'L\'action a été supprimée avec succès.');
+     
+        }
+        else {
+            return redirect()->back()->with('error', 'L\'action n\'existe pas pour cet utilisateur .');
+    
+        }
     }
 
     public function restore($id){

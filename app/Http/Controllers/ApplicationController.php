@@ -47,7 +47,8 @@ class ApplicationController extends Controller
     public function show ($id){
         $application = Application::find($id);
         $actions = $application->actions()->paginate(4);
-        return view('applications.show',compact(['application','actions']));
+        $users = $application->users()->paginate(5);
+        return view('applications.show',compact(['application','actions','users']));
     }
 
     public function edit ($id){
