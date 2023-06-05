@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('equipements', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('type');
             $table->string('description');
+            $table->foreignId('pole_id')
+            ->constrained('poles')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,7 +20,8 @@ class SearchController extends Controller
                     'actions' => 'actions.index',
                     'applications' => 'applications.index',
                     'users' => 'users.index',
-                    'fonctions' => 'fonctions.index'
+                    'fonctions' => 'fonctions.index',
+                    'poles' => 'poles.index'
                     // Add more routes as needed
                 ];
 

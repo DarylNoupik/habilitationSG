@@ -6,6 +6,7 @@ use App\Http\Controllers\EquipementController;
 use App\Http\Controllers\FonctionsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
+use App\Http\Controllers\PoleController ;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
@@ -129,6 +130,13 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update/{id}', [FonctionsController::class, 'update'])->name('fonctions.update');
 		Route::get('/delete/{id}', [FonctionsController::class, 'destroy'])->name('fonctions.destroy');
 	});
+	//Routage des  poles d'equipements
+	Route::prefix('poles')->group(function (){
+		Route::get('/',[PoleController::class,'index'])->name('poles.index');
+		Route::post('/store',[PoleController::class,'store'])->name('poles.store');
+		Route::get('{id}/edit',[PoleController::class,'edit'])->name('poles.edit');
+		Route::delete('{id}/delete',[PoleController::class,'destroy'])->name('poles.destroy');
+	});
     // Routage des equipements
 	Route::prefix('equipements')->group(function () {
 		Route::get('/', [EquipementController::class, 'index'])->name('equipements.index');
@@ -147,6 +155,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update/{id}', [ActionController::class, 'update'])->name('actions.update');
 		Route::get('/delete/{id}', [ActionController::class, 'destroy'])->name('actions.destroy');
 	});
+	
 
 
 });

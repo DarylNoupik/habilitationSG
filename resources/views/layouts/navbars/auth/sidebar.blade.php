@@ -97,6 +97,14 @@
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestions d'équipements</h6>
       </li>
+      <li class="nav-item pb-2">
+        <a class="nav-link {{ (Request::is('poles') ? 'active' : '') }}" href="{{ route('poles.index') }}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ (Request::is('poles') ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Poles</span>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link {{ (Request::is('Equipements') ? 'active' : '') }}" href="{{route('equipements.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -118,7 +126,7 @@
           <span class="nav-link-text ms-1"> Equipements</span>
         </a>
       </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <a class="nav-link {{ (Request::is('tables') ? 'active' : '') }}" href="{{ url('tables') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -157,7 +165,7 @@
           </div>
           <span class="nav-link-text ms-1">Billing</span>
         </a>
-      </li>
+      </li>-->
       <li class="nav-item mt-3">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Pilotage</h6>
       </li>
@@ -182,7 +190,7 @@
             <span class="nav-link-text ms-1">User Profile</span>
         </a>
       </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <a class="nav-link {{ (Request::is('profile') ? 'active' : '') }}" href="{{ url('profile') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -202,7 +210,7 @@
           </div>
           <span class="nav-link-text ms-1">Profile</span>
         </a>
-      </li> 
+      </li> -->
   
     </ul>
   </div>

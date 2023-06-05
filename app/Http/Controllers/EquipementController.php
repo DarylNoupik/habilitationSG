@@ -24,7 +24,7 @@ class EquipementController extends Controller
 
     }
 
-    public function edit (){
+    public function edit ($id){
         $equipement = Equipement::find($id);
         return view('equipements.edit',compact('equipement'));
     }
