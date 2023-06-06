@@ -115,7 +115,7 @@
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Equipement</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Utilisateurs</th>
+                                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2">Utilisateurs</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -140,10 +140,10 @@
                                                 <span class="text-xs font-weight-bold"></span>
                                                 -->
                                                 <div class="d-flex align-items-center justify-content-center">
-                                                    <span class="me-2 text-xs font-weight-bold">60%</span>
+                                                    <span class="me-2 text-xs font-weight-bold">{{$equipement->users()->count()}} <i  class="cursor-pointer fas fa-user text-secondary" > </i>   soit {{round(($equipement->users()->count()/$users->count())*100,2)}}%</span>
                                                     <div>
                                                         <div class="progress">
-                                                            <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                                            <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="{{round(($equipement->users()->count()/$users->count())*100,2)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round(($equipement->users()->count()/$users->count())*100,2)}}%;"></div>
                                                         </div>
                                                     </div>
                                                 </div>

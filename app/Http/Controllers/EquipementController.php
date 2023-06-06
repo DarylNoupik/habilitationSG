@@ -11,6 +11,7 @@ class EquipementController extends Controller
 {
     public function index (Request $request){
         $poles = Pole::paginate(6);
+        $users = User::all();
         $query = $request->input('q');
         $equipements = Equipement::query();
         if ($query) {
@@ -29,7 +30,7 @@ class EquipementController extends Controller
         //dd($equipPerPole);
     
 
-        return view('equipements.index',compact(['equipements','poles','query','equipPerPole']));
+        return view('equipements.index',compact(['equipements','poles','query','equipPerPole','users']));
     }
 
     public function  create (){

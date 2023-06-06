@@ -12,6 +12,7 @@ use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
+use App\Models\Equipement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -38,7 +39,17 @@ Route::group(['middleware' => 'auth'], function () {
 		$userscount = User::count();
 		$applicationscount = application::count();
 		$fonctionscount = Fonctions::count();
-		return view('dashboard',compact(['userscount','applicationscount','fonctionscount']));
+		$equipementcount = Equipement::count();
+		$usersByFunction = User::with('fonction') ->select('fonctions.nom', DB::raw('count(*) as user_count'))
+		->join('fonctions', 'users.fonction_id', '=', 'fonctions.id')
+		->groupBy('fonctions.nom')
+        ->get();
+		$usersByApplication = application::withCount('users')
+		->get();
+
+		//dd($usersByApplication );
+		
+		return view('dashboard',compact(['userscount','applicationscount','fonctionscount','equipementcount','usersByFunction','usersByApplication']));
 	})->name('dashboard');
 
 	Route::get('billing', function () {
