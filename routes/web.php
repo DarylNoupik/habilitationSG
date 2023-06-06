@@ -83,7 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Route de recherche
 	Route::get('/search', [SearchController::class,'search'])->name('search');
 	// Routage des actions
-	Route::prefix('actions')->group(function () {
+	/**Route::prefix('actions')->group(function () {
 		Route::get('/', [ActionsController::class, 'index'])->name('actions.index');
 		Route::get('/create', [ActionsController::class, 'create'])->name('actions.create');
 		Route::post('/store', [ActionsController::class, 'store'])->name('actions.store');
@@ -91,7 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/edit/{id}', [ActionsController::class, 'edit'])->name('actions.edit');
 		Route::post('/update/{id}', [ActionsController::class, 'update'])->name('actions.update');
 		Route::get('/delete/{id}', [ActionsController::class, 'destroy'])->name('actions.destroy');
-	});
+	});**/
 	// Routage des applications
 	Route::prefix('applications')->group(function () {
 		Route::get('/', [ApplicationController::class, 'index'])->name('applications.index');
@@ -135,16 +135,19 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/',[PoleController::class,'index'])->name('poles.index');
 		Route::post('/store',[PoleController::class,'store'])->name('poles.store');
 		Route::get('{id}/edit',[PoleController::class,'edit'])->name('poles.edit');
-		Route::delete('{id}/delete',[PoleController::class,'destroy'])->name('poles.destroy');
+		Route::delete('{pole}/delete',[PoleController::class,'destroy'])->name('poles.destroy');
+		Route::post('{pole}/update',[PoleController::class , 'update'])->name('poles.update');
 	});
     // Routage des equipements
 	Route::prefix('equipements')->group(function () {
 		Route::get('/', [EquipementController::class, 'index'])->name('equipements.index');
-		Route::get('/create', [EquipementController::class, 'create'])->name('equipements.create');
 		Route::post('/store', [EquipementController::class, 'store'])->name('equipements.store');
 		Route::get('/edit/{id}', [EquipementController::class, 'edit'])->name('equipements.edit');
 		Route::post('/update/{id}', [EquipementController::class, 'update'])->name('equipements.update');
-		Route::get('/delete/{id}', [EquipementController::class, 'destroy'])->name('equipements.destroy');
+		Route::delete('{id}/delete', [EquipementController::class, 'destroy'])->name('equipements.destroy');
+		Route::get('{id}/users',[EquipementController::class,'getUsers'])->name('equipements.users');
+		Route::post('/equipements/{equipement}/users', [EquipementController::class, 'storeUser'])->name('equipements.users.store');
+		Route::delete('/equipements/{equipementId}/users/{userId}', [EquipementController::class, 'removeUser'])->name('equipements.users.remove');
 	});
 	// Routage des actions des applications
 	Route::prefix('actions')->group(function () {

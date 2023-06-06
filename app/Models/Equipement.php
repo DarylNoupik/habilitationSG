@@ -9,16 +9,28 @@ class Equipement extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom'
+        'nom',
+        'description',
+        'pole_id'
     ];
 
 
     public function users (){
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class,'user_equipement');
     }
     public function pole(){
         return $this->belongsTo(Pole::class);
     }
+
+    public function storeUser($user)
+        {
+            $this->users()->attach($user);
+        }
+    public function removeUser($user)
+        {
+            $this->users()->detach($user);
+        }
+
 }
 
 

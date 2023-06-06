@@ -52,7 +52,7 @@ class User extends Authenticatable
 
 
     public function equipements (){
-        return $this->belongsToMany(equipements::class);
+        return $this->belongsToMany(Equipement::class,'user_equipement');
     }
 
     public function fonction(){
